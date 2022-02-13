@@ -1,29 +1,35 @@
 module.exports = {
-  env: {
+    parser : 'babel-eslint',
+    env: {
       node: true,
       commonjs: true,
       es2021: true,
-  },
-  extends: ["eslint:recommended", "eslint-config-prettier"],
-  parserOptions: {
+    },
+    extends: ["eslint:recommended", "eslint-config-prettier"],
+    parserOptions: {
       ecmaVersion: 12,
-  },
-  rules: {
+    },
+    rules: {
       "no-prototype-builtins": "off",
       "no-self-assign": "off",
       "no-empty": "off",
       "no-case-declarations": "off",
       "consistent-return": "off",
       "arrow-body-style": "off",
-      camelcase: "off",
-      quotes: "off",
+      "camelcase": "off",
+      "quotes": "off",
       "no-unused-vars": "off",
       "comma-dangle": "off",
       "no-bitwise": "off",
       "no-use-before-define": "off",
       "no-extra-boolean-cast": "off",
       "no-empty-pattern": "off",
-      curly: "off",
+      "curly": "off",
       "no-unreachable": "off",
-  },
-};
+      "global-require": 0,
+      "prefer-destructuring": 0,
+      "radix": 0,
+      "no-unused-expressions": 0,
+      "prefer-rest-params": 0,
+    },
+  };

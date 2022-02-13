@@ -31,6 +31,7 @@ const keysToCamel = function (o) {
 
   return o;
 };
+
 const keysToSnake = function (o) {
   if (isObject(o)) {
     const n = {};
@@ -49,7 +50,4 @@ const keysToSnake = function (o) {
   return o;
 };
 
-module.exports = {
-  keysToCamel,
-  keysToSnake,
-};
+module.exports = { keysToCamel, keysToSnake };
