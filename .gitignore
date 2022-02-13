@@ -65,4 +65,7 @@ node_modules/
 # dotenv environment variables file
 .env
 
+# Firebase service account
 cozy-57e78-firebase-adminsdk-h4pqw-d2ac2e2a7c.json
+
+.DS_Store
