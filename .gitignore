@@ -68,4 +68,8 @@ node_modules/
 # Firebase service account
 cozy-57e78-firebase-adminsdk-h4pqw-d2ac2e2a7c.json
 
+# DS_Store
 .DS_Store
+
+# vscode
+.vscode/
