@@ -2,6 +2,7 @@ const functions = require('firebase-functions');
 const { Pool, Query } = require('pg');
 const dayjs = require('dayjs');
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 const dbConfig = require('../config/dbConfig');
@@ -9,8 +10,8 @@ const dbConfig = require('../config/dbConfig');
 let devMode = process.env.NODE_ENV === 'development';
 
 const sqlDebug = true;
-
 const submit = Query.prototype.submit;
+
 Query.prototype.submit = function () {
   const text = this.text;
   const values = this.values || [];
@@ -61,8 +62,10 @@ const connect = async (req) => {
     }
     client.query = query;
     client.release = release;
+
     return release.apply(client);
   };
+  
   return client;
 };
 
