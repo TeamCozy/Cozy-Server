@@ -7,7 +7,7 @@ const { clinicDB } = require('../../../db');
 
 /**
 * @route GET /clinic
-* @desc 전체 진료소 조회
+* @desc 전체 진료소를 조회합니다.
 */
 module.exports = async (req, res) => {  
   let client;
