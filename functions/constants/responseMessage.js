@@ -19,7 +19,12 @@ module.exports = {
 
   // 진료소
   READ_ALL_CLINICS_SUCCESS: '전체 진료소 조회 성공',
+  SEARCH_CLINIC_SUCCESS: '진료소 검색 성공',
   NO_CLINIC: '존재하는 진료소가 없습니다.',
+
+  // 검색
+  NO_KEYWORD: '키워드가 없습니다.',
+  NO_SEARCH_RESULT: '검색 결과가 없습니다.',
 
   // 토큰
   EXPIRED_TOKEN: '토큰이 만료되었습니다.',

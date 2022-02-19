@@ -12,4 +12,16 @@ const getAllClinics = async (client) => {
   return convertSnakeToCamel.keysToCamel(rows);
 };
 
-module.exports = { getAllClinics };
+// 진료소 검색
+const searchClinic = async (client, keyword) => {
+  const { rows } = await client.query(
+    `
+    SELECT id, name, location, status, emoji FROM clinic c
+    WHERE name LIKE '%${keyword}%' OR location LIKE '%${keyword}%'
+      AND is_deleted = FALSE
+    `,
+  );
+  return convertSnakeToCamel.keysToCamel(rows);
+};
+
+module.exports = { getAllClinics, searchClinic };
