@@ -22,8 +22,6 @@ module.exports = async (req, res) => {
     const clinics = await clinicDB.searchClinic(client, keyword);
 
     if (!clinics) return res.status(sc.OK).send(success(sc.OK, rm.NO_SEARCH_RESULT, clinics));
-
-    console.log(clinics)
     
     res.status(sc.OK).send(success(sc.OK, rm.SEARCH_CLINIC_SUCCESS, clinics));
   } catch (error) {
