@@ -39,13 +39,13 @@ const getUserByRfToken = async (client, refreshToken) => {
 };
 
 // 유저 존재 유무 판별
-const checkAlreadyUser = async (client, idKey) => {
+const checkAlreadyUser = async (client, idKey, token) => {
   const { rows } = await client.query(
     `
     SELECT * FROM "user" u
-    WHERE id_key = $1
+    WHERE id_key = $1 AND refresh_token = $2
     `,
-    [idKey],
+    [idKey, token],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
@@ -147,6 +147,18 @@ const updateUserNickname = async (client, userId, nickname) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
+const getUserInfo = async (token) => {
+  const { rows } = await client.query(
+    `
+    SELECT id, nickname, image_url
+    FROM "user"
+    WHERE refresh_token = $1
+    `,
+
+    [token],
+  );
+  return convertSnakeToCamel.keysToCamel(rows[0]);
+};
 
 module.exports = {
   getAllUsers,
@@ -159,5 +171,5 @@ module.exports = {
   deleteUser,
   addUser,
   updateUserNickname,
-
+  getUserInfo,
 };

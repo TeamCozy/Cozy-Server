@@ -17,39 +17,39 @@ let client;
 
 try {
 client = await db.connect(req);
-// 빌려온 connection을 사용해 우리가 db/user.js에서 미리 정의한 SQL 쿼리문을 날려줍니다.
+
 
 const kakaoAuth = async (kakaoAccessToken) => {
   try {
     const user = await axios({
-      method: 'GET',
+      method: 'POST',
       url: 'https://kapi.kakao.com/v2/user/me',
       headers: {
         Authorization: `Bearer ${kakaoAccessToken}`,
       },
     });
     const kakaoUser = user.data.kakao_account;
-    //if (!kakaoUser) return NOT_INCLUDE_EMAIL;
-    //if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return INVALID_USER;
+    if (!kakaoUser) return NOT_INCLUDE_EMAIL;
+    if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return INVALID_USER;
+
     return kakaoUser;
   } catch (err) {
     return null;
   }
 };
+
+
+
 let user;
-//let email = null;
 let type = 'Login';
-
 user = kakaoAuth(token);
-console.log(user.json+"~!~!~!~!~!")
-if (user === NOT_INCLUDE_EMAIL) email = null;
-if (user === INVALID_USER) res.status(statusCode.UNAUTHORIZED).send(fail(statusCode.UNAUTHORIZED, responseMessage.UNAUTHORIZED_SOCIAL));
-email = user.email;
 
-if (!user) res.status(statusCode.UNAUTHORIZED).send(fail(statusCode.UNAUTHORIZED, responseMessage.UNAUTHORIZED_SOCIAL));
+if (user === INVALID_USER) res.status(statusCode.UNAUTHORIZED).send(util.fail(statusCode.UNAUTHORIZED, responseMessage.UNAUTHORIZED_SOCIAL));
 
-const existedUser = await userDB.checkAlreadyUser(client, idKey);
-//console.log("d여기까진 오케이"+existedUser)
+if (!user) res.status(statusCode.UNAUTHORIZED).send(util.fail(statusCode.UNAUTHORIZED, responseMessage.UNAUTHORIZED_SOCIAL));
+
+const existedUser = await userDB.checkAlreadyUser(client, idKey, token);
+
 
 if (!existedUser) {
   type = 'Signup';
@@ -62,11 +62,8 @@ if (!existedUser) {
 //const { refreshToken } = jwt.createRefresh();
 //const { accessToken } = jwt.sign(existedUser);
 
-if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
+//if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
 //await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
-
-
-
 
 
 

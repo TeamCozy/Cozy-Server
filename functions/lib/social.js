@@ -13,7 +13,7 @@ const kakaoAuth = async (kakaoAccessToken) => {
         Authorization: `Bearer ${kakaoAccessToken}`,
       },
     });
-
+    console.log("제발ㅈ발~!~!~!!!!!!!!!!!!!!!!!")
     const kakaoUser = user.data.kakao_account;
 
     if (!kakaoUser) return NOT_INCLUDE_EMAIL;
