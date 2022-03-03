@@ -13,9 +13,10 @@ let client;
 try {
 
 client = await db.connect(req);
-const users = await userDB.getUserInfo(client);
+const user = await userDB.getUserInfo(client, accesstoken);
+
 // 성공적으로 users를 가져왔다면, response를 보내줍니다.
-res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.READ_ALL_USERS_SUCCESS, users));
+res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.READ_ALL_USERS_SUCCESS, user));
 
 } catch (error) {
 functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] error`);

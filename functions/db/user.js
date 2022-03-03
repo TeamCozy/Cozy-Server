@@ -147,11 +147,11 @@ const updateUserNickname = async (client, userId, nickname) => {
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };
 
-const getUserInfo = async (token) => {
+const getUserInfo = async (client, token) => {
   const { rows } = await client.query(
     `
     SELECT id, nickname, image_url
-    FROM "user"
+    FROM "user" u
     WHERE refresh_token = $1
     `,
 
