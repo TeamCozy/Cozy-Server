@@ -108,17 +108,17 @@ const deleteUser = async (client, userId) => {
 };
 
 // 유저 가입
-const addUser = async (client, refreshToken, idKey) => {
+const addUser = async (client, refreshToken, idKey, nickname) => {
   const { rows } = await client.query(
     `
     INSERT INTO "user"
-    (refresh_token, id_key)
+    (refresh_token, id_key, nickname)
     VALUES
-    ($1, $2)
+    ($1, $2, $3)
     RETURNING *
     `,
 
-    [refreshToken, idKey],
+    [refreshToken, idKey, nickname],
   );
   return convertSnakeToCamel.keysToCamel(rows[0]);
 };

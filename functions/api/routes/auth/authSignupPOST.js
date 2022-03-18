@@ -14,7 +14,6 @@ const {token, idKey} = req.body;
 if (!idKey || !token) return res.status(statusCode.BAD_REQUEST).send(util.fail(statusCode.BAD_REQUEST, responseMessage.NULL_VALUE));
 let client;
 
-
 try {
 client = await db.connect(req);
 
@@ -37,9 +36,6 @@ const kakaoAuth = async (kakaoAccessToken) => {
     return null;
   }
 };
-
-
-
 let user;
 let type = 'Login';
 user = kakaoAuth(token);
@@ -54,9 +50,10 @@ const existedUser = await userDB.checkAlreadyUser(client, idKey, token);
 if (!existedUser) {
   type = 'Signup';
   //const { refreshToken } = jwt.createRefresh();
-  const newUser = await userDB.addUser(client, token, idKey);
+  let nickname = "촉촉한 초코칩";
+  const newUser = await userDB.addUser(client, token, idKey, nickname);
   //const { accessToken } = jwt.sign(newUser);
-  res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, responseMessage.CREATED_USER_SUCCESS, { type, token}));
+  res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, responseMessage.CREATED_USER_SUCCESS, {type, newUser}));
   
 }
 //const { refreshToken } = jwt.createRefresh();
@@ -67,7 +64,7 @@ if (!existedUser) {
 
 
 
-res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.LOGIN_SUCCESS, { type, token }));
+res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.LOGIN_SUCCESS, { type, existedUser }));
 
 } catch (error) {
 functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] error`);
