@@ -17,6 +17,16 @@ module.exports = {
   UPDATE_USER_SUCCESS: '유저 수정 성공',
   DELETE_USER_SUCCESS: '유저 삭제 성공',
 
+  // 진료소
+  READ_ALL_CLINICS_SUCCESS: '전체 진료소 조회 성공',
+  READ_ONE_CLINIC_SUCCESS: '진료소 상세 조회 성공',
+  SEARCH_CLINIC_SUCCESS: '진료소 검색 성공',
+  NO_CLINIC: '존재하지 않는 진료소입니다.',
+
+  // 검색
+  NO_KEYWORD: '키워드가 없습니다.',
+  NO_SEARCH_RESULT: '검색 결과가 없습니다.',
+
   // 토큰
   EXPIRED_TOKEN: '토큰이 만료되었습니다.',
   EXPIRED_ALL_TOKEN: '모든 토큰이 만료되었습니다.',
