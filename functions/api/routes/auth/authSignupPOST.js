@@ -30,7 +30,6 @@ const kakaoAuth = async (kakaoAccessToken) => {
     const kakaoUser = user.data.kakao_account;
     if (!kakaoUser) return NOT_INCLUDE_EMAIL;
     if (!kakaoUser.is_email_valid || !kakaoUser.is_email_verified) return INVALID_USER;
-
     return kakaoUser;
   } catch (err) {
     return null;
@@ -44,8 +43,7 @@ if (user === INVALID_USER) res.status(statusCode.UNAUTHORIZED).send(util.fail(st
 
 if (!user) res.status(statusCode.UNAUTHORIZED).send(util.fail(statusCode.UNAUTHORIZED, responseMessage.UNAUTHORIZED_SOCIAL));
 
-const existedUser = await userDB.checkAlreadyUser(client, idKey, token);
-
+const existedUser = await userDB.checkAlreadyUser(client, idKey);
 
 if (!existedUser) {
   type = 'Signup';
@@ -53,15 +51,9 @@ if (!existedUser) {
   let nickname = "촉촉한 초코칩";
   const newUser = await userDB.addUser(client, token, idKey, nickname);
   //const { accessToken } = jwt.sign(newUser);
-  res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, responseMessage.CREATED_USER_SUCCESS, {type, newUser}));
-  
+  res.status(statusCode.CREATED).send(util.success(statusCode.CREATED, responseMessage.CREATED_USER_SUCCESS, {type, newUser})); 
 }
-//const { refreshToken } = jwt.createRefresh();
-//const { accessToken } = jwt.sign(existedUser);
-
-//if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
-//await userDB.updateRefreshToken(client, existedUser.id, refreshToken);
-
+if (existedUser.isDeleted) await userDB.updateIsDeleted(client, existedUser.id);
 
 
 res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.LOGIN_SUCCESS, { type, existedUser }));
@@ -69,12 +61,9 @@ res.status(statusCode.OK).send(util.success(statusCode.OK, responseMessage.LOGIN
 } catch (error) {
 functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] error`);
 console.log(error);
-// 그리고 역시 response 객체를 보내줍니다.
+
 res.status(statusCode.INTERNAL_SERVER_ERROR).send(util.fail(statusCode.INTERNAL_SERVER_ERROR, responseMessage.INTERNAL_SERVER_ERROR));
-// finally문은 try문이 끝나든 catch문이 끝나든 반드시 실행되는 블록입니다.
-// 여기서는 db.connect(req)를 통해 빌려온 connection을 connection pool에 되돌려줍니다.
-// connection을 되돌려주는 작업은 반드시 이루어져야 합니다.
-// 그렇지 않으면 요청의 양이 일정 수준을 넘어갈 경우 쌓이기만 하고 해결되지 않는 문제가 발생합니다.
+
 } finally {
 client.release();
 }

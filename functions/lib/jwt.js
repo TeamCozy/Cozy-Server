@@ -19,7 +19,7 @@ const rf_options = {
 const sign = (user) => {
   const payload = {
     id: user.id,
-    email: user.email,
+    idKey: user.idKey,
   };
 
   const result = {
@@ -28,12 +28,14 @@ const sign = (user) => {
   return result;
 };
 
+/*
 const createRefresh = () => {
   const result = {
     refreshToken: jwt.sign({}, secretKey, rf_options),
   };
   return result;
 };
+*/
 
 const verify = (token) => {
   let decoded;

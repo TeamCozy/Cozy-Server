@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/myInfo', require('./userInfoGET'));
+router.post('/info', require('./userInfoGET'));
 
 module.exports = router;
