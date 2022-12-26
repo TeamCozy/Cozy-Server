@@ -1,29 +1,26 @@
+const _ = require('lodash');
 const functions = require('firebase-functions');
 const { success, fail } = require('../../../lib/util');
 const sc = require('../../../constants/statusCode');
 const rm = require('../../../constants/responseMessage');
 const db = require('../../../db/db');
-const { clinicDB } = require('../../../db');
+const { reviewDB } = require('../../../db');
+const dayjs = require('dayjs');
 
 /**
- * @route GET /clinic/search?keyword={}
- * @desc 진료소를 키워드로 검색합니다.
+ * @route GET /review
+ * @desc 내가 작성한 후기를 조회합니다.
  */
 module.exports = async (req, res) => {
-  const { keyword } = req.query;
-
-  if (!keyword) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_KEYWORD));
+  const userId = req.user.id;
 
   let client;
 
   try {
     client = await db.connect(req);
 
-    const clinics = await clinicDB.searchClinic(client, keyword);
-
-    if (!clinics) return res.status(sc.OK).send(success(sc.OK, rm.NO_SEARCH_RESULT, clinics));
-
-    res.status(sc.OK).send(success(sc.OK, rm.SEARCH_CLINIC_SUCCESS, clinics));
+    const data = await reviewDB.getMyReviews(client, userId);
+    res.status(sc.OK).send(success(sc.OK, rm.READ_MY_REVIEWS_SUCCESS, data));
   } catch (error) {
     console.log(error);
     functions.logger.error(`[ERROR] [${req.method.toUpperCase()}] ${req.originalUrl}`, `[CONTENT] ${error}`);

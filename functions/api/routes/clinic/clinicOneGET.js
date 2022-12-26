@@ -8,17 +8,17 @@ const { clinicDB, reviewDB } = require('../../../db');
 const dayjs = require('dayjs');
 
 /**
-* @route GET /clinic/:clinicId
-* @desc 특정 진료소의 상세 정보를 조회합니다.
-*/
+ * @route GET /clinic/:clinicId
+ * @desc 특정 진료소의 상세 정보를 조회합니다.
+ */
 module.exports = async (req, res) => {
   const { clinicId } = req.params;
-  const userId = 1;
-  
+  const userId = req.user.id;
+
   if (!clinicId) return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-  
+
   let client;
-  
+
   try {
     client = await db.connect(req);
 
@@ -30,16 +30,16 @@ module.exports = async (req, res) => {
 
     if (!reviews) return res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_CLINIC_SUCCESS, _.merge(clinic, { reviews })));
 
-    const data = _.merge(clinic, { 
-      reviews: reviews.map(o => ({
+    const data = _.merge(clinic, {
+      reviews: reviews.map((o) => ({
         id: o.id,
         nickname: o.nickname,
         profileImage: o.imageUrl,
         date: dayjs(o.createdAt).format('YYYY.MM.DD'),
         content: o.content,
         emoji: o.emoji,
-        isRemovable: (userId === o.userId) ? true : false,
-      }))
+        isRemovable: userId === o.userId ? true : false,
+      })),
     });
 
     res.status(sc.OK).send(success(sc.OK, rm.READ_ONE_CLINIC_SUCCESS, data));

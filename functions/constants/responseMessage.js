@@ -23,6 +23,11 @@ module.exports = {
   SEARCH_CLINIC_SUCCESS: '진료소 검색 성공',
   NO_CLINIC: '존재하지 않는 진료소입니다.',
 
+  // 후기
+  READ_MY_REVIEWS_SUCCESS: '내 후기 조회 성공',
+  DELETE_REVIEW_SUCCESS: '후기 삭제 성공',
+  CREATE_REVIEW_SUCCESS: '후기 작성 성공',
+
   // 검색
   NO_KEYWORD: '키워드가 없습니다.',
   NO_SEARCH_RESULT: '검색 결과가 없습니다.',
